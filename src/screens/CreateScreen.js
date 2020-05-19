@@ -15,7 +15,7 @@ export default function CreateScreen({navigation}) {
     )
 }
 CreateScreen.navigationOptions = ({navigation}) => ({
-    headerTitle: 'Create',
+    headerTitle: 'Create post',
     headerLeft: (<HeaderButtons>
         <Ionicons style={{paddingLeft: 20}} onPress={() => navigation.toggleDrawer()} name='ios-menu' color='white' size={25} />
     </HeaderButtons>)

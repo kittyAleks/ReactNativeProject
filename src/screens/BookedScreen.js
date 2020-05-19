@@ -64,7 +64,7 @@ export default function BookedScreen({navigation}) {
         </Container>
     )
 }
-BookedScreen.navigationOptions = () =>({
+BookedScreen.navigationOptions = ({ navigation }) =>({
     headerTitle: 'Users List',
     headerLeft: (<HeaderButtons>
         <Ionicons style={{paddingLeft: 20}} onPress={() => navigation.toggleDrawer()} name='ios-menu' color='white' size={25} />

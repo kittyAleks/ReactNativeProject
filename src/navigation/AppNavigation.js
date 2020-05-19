@@ -69,9 +69,32 @@ const CreateNavigator = createStackNavigator({
 }, defaultNavigationOptions);
 
 const DrawerNavigator = createDrawerNavigator({
-    UsersList: BottomContainer,
-    About: AboutNavigator,
-    Create: CreateNavigator
+    UsersList: {
+        screen: BottomContainer,
+        navigationOptions: {
+            drawerLabel: 'Main',
+            // drawerIcon: <Ionicons name=''/>
+        }
+    },
+    About: {
+        screen: AboutNavigator,
+        navigationOptions: {
+            drawerLabel: 'About Application',
+        }
+    },
+    Create: {
+        screen: CreateNavigator,
+        navigationOptions: {
+            drawerLabel: 'New post'
+        }
+    },
+}, {
+    contentOptions: {
+        activeTintColor: THEME.MAIN_COLOR,
+        labelStyle: {
+            fontSize: 15,
+        }
+    }
 });
 
 

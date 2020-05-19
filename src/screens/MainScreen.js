@@ -82,7 +82,8 @@ export default function MainScreen({navigation}) {
 MainScreen.navigationOptions = ({navigation}) => ({
     headerTitle: 'Users List',
     headerRight: (<HeaderButtons>
-        <Ionicons style={{paddingRight: 10}} name='ios-camera' color='white' size={25} />
+        <Ionicons style={{paddingRight: 10}} onPress={() => navigation.navigate('Create')}
+                  name='ios-camera' color='white' size={25} />
     </HeaderButtons>),
 
 

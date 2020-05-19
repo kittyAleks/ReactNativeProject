@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from 'react'
-import { View, StatusBar, StyleSheet, Image, Dimensions, TouchableOpacity, Button, FlatList } from 'react-native'
+import { View, StatusBar, StyleSheet, Image, Dimensions, TouchableOpacity, FlatList } from 'react-native'
 import { Container, InputGroup, Input, Text, Button as NBButton, Icon as NBIcon} from 'native-base'
 import {HeaderButton, HeaderButtons, Item} from 'react-navigation-header-buttons';
 
-import { PostRow } from '../components/PostRow'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {PostRow} from "../components/PostRow";
 
 const url = 'https://testflatlist-5faf9.firebaseio.com/.json';
 
 export default function MainScreen({navigation}) {
-
     const fetchTodos = async (url) => {
         try {
             const response = await fetch(url, {
@@ -17,7 +16,9 @@ export default function MainScreen({navigation}) {
                 headers: {'Content-Type': 'application/json'},
             });
             const data = await response.json();
-            return data
+            console.log('ssss data', data)
+
+        return data
 
         } catch (e) {
             console.log('Ops...')
@@ -31,7 +32,7 @@ export default function MainScreen({navigation}) {
     }, []);
 
     const openDetailScreen = item => {
-        navigation.navigate('DetailScreen', {item: item, liked_by_user: item.liked_by_user})
+        navigation.navigate('DetailScreen', {item: item, liked_by_user: item.liked_by_user })
     };
 
     // onSearchNameTextChange = (value) => {
@@ -57,13 +58,6 @@ export default function MainScreen({navigation}) {
                 paddingHorizontal: 10,
                 marginRight: 5,
             }}>
-                {/*<HeaderButton*/}
-                {/*    iconSize={20}*/}
-                {/*    color={'#525252'}*/}
-                {/*    IconComponent={Ionicons}*/}
-                {/*/>*/}
-
-
                 <InputGroup style={{marginTop: 6, marginBottom: 10}} borderType='regular'>
                     <Input
                         style={styles.inputStyle}
@@ -75,7 +69,6 @@ export default function MainScreen({navigation}) {
                         placeholder='Search by name'/>
                 </InputGroup>
             </View>
-
             <View style={{flex: 1}}>
                 <FlatList
                     data={dataSource}
@@ -86,19 +79,17 @@ export default function MainScreen({navigation}) {
         </Container>
     )
 }
-MainScreen.navigationOptions = {
+MainScreen.navigationOptions = ({navigation}) => ({
     headerTitle: 'Users List',
     headerRight: (<HeaderButtons>
         <Ionicons style={{paddingRight: 10}} name='ios-camera' color='white' size={25} />
-        {/*<Item title='Add photo' color='white' onPress={() => alert('Hi')} iconName='ios-menu'/>*/}
     </HeaderButtons>),
 
 
     headerLeft: (<HeaderButtons>
-        <Ionicons style={{paddingLeft: 20}} onPress={() => alert('He')} name='ios-menu' color='white' size={25} />
-        {/*<Item title='Add photo' color='white' onPress={() => alert('Hi')} iconName='ios-menu'/>*/}
+        <Ionicons style={{paddingLeft: 20}} onPress={() => navigation.toggleDrawer()} name='ios-menu' color='white' size={25} />
     </HeaderButtons>)
-};
+});
 const styles = StyleSheet.create({
     inputStyle: {
         borderWidth: 1,

@@ -7,6 +7,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 export const DetailScreen = ({navigation}) => {
     const item = navigation.getParam('item');
     console.log('QQQ item', item)
+    const dataSource = navigation.getParam('dataSource');
+    console.log('QQQ dataSource', dataSource)
 
     // useEffect(() => {navigation.setParams({liked_by_user: item.liked_by_user})}, [])
 
@@ -71,7 +73,6 @@ DetailScreen.navigationOptions = ({navigation}) => {
         headerRight: (<HeaderButtons>
             <Ionicons style={{paddingRight: 10}} name={iconName} color='white' size={25} />
         </HeaderButtons>),
-
     }
 };
 

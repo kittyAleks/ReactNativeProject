@@ -9,7 +9,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const url = 'https://testflatlist-5faf9.firebaseio.com/.json';
 
 export default function BookedScreen({navigation}) {
-
     const fetchTodos = async (url) => {
         try {
             const response = await fetch(url, {
@@ -18,35 +17,21 @@ export default function BookedScreen({navigation}) {
             });
             const data = await response.json();
             return data
-
         } catch (e) {
-            console.log('Ops...')
+            console.log('Opss...')
         }
     };
 
-    const [dataSource, setDataSource] = useState();
-
+    const [dataSource, setDataSource] = useState([]);
     useEffect(() => {
         fetchTodos(url).then((data) => setDataSource(data));
     }, []);
 
-    const openDetailScreen = item => {
-        navigation.navigate('DetailScreen', {item: item, liked_by_user: item.liked_by_user})
-    };
+    const data = dataSource.filter(post => post.liked_by_user);
 
-    // onSearchNameTextChange = (value) => {
-    //     this.setState({searchText: value});
-    //
-    //     const newData = this.state.data.filter(item => {
-    //         const itemData = item.user.first_name ? item.user.first_name.toUpperCase() : ''.toUpperCase();
-    //         const textData = value.toUpperCase();
-    //         return itemData.indexOf(textData) > -1;
-    //     });
-    //     this.setState({data: newData, value: value})
-    //     if(value === '') {
-    //         this.setState({data: [...this.state.temp]}
-    //         )}
-    // };
+    const openDetailScreen = item => {
+        navigation.navigate('DetailScreen', {item: item, liked_by_user: item.liked_by_user })
+    };
 
     return (
         <Container style={{
@@ -57,13 +42,6 @@ export default function BookedScreen({navigation}) {
                 paddingHorizontal: 10,
                 marginRight: 5,
             }}>
-                {/*<HeaderButton*/}
-                {/*    iconSize={20}*/}
-                {/*    color={'#525252'}*/}
-                {/*    IconComponent={Ionicons}*/}
-                {/*/>*/}
-
-
                 <InputGroup style={{marginTop: 6, marginBottom: 10}} borderType='regular'>
                     <Input
                         style={styles.inputStyle}
@@ -78,27 +56,21 @@ export default function BookedScreen({navigation}) {
 
             <View style={{flex: 1}}>
                 <FlatList
-                    data={dataSource}
-                    keyExtractor={(item, index) => item.id}
+                    data={data}
+                    keyExtractor={(item, index) => item.id.toString()}
                     renderItem={ ({item}) => <PostRow item={item} onOpen={openDetailScreen}/>}
                 />
             </View>
         </Container>
     )
 }
-BookedScreen.navigationOptions = {
+BookedScreen.navigationOptions = () =>({
     headerTitle: 'Users List',
-    headerRight: (<HeaderButtons>
-        <Ionicons style={{paddingRight: 10}} name='ios-camera' color='white' size={25} />
-        {/*<Item title='Add photo' color='white' onPress={() => alert('Hi')} iconName='ios-menu'/>*/}
-    </HeaderButtons>),
-
-
     headerLeft: (<HeaderButtons>
-        <Ionicons style={{paddingLeft: 20}} onPress={() => alert('He')} name='ios-menu' color='white' size={25} />
+        <Ionicons style={{paddingLeft: 20}} onPress={() => navigation.toggleDrawer()} name='ios-menu' color='white' size={25} />
         {/*<Item title='Add photo' color='white' onPress={() => alert('Hi')} iconName='ios-menu'/>*/}
     </HeaderButtons>)
-};
+});
 const styles = StyleSheet.create({
     inputStyle: {
         borderWidth: 1,

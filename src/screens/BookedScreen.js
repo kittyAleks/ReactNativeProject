@@ -1,33 +1,36 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import { View, StatusBar, StyleSheet, Image, Dimensions, TouchableOpacity, Button, FlatList } from 'react-native'
 import { Container, InputGroup, Input, Text, Button as NBButton, Icon as NBIcon} from 'native-base'
 import {HeaderButton, HeaderButtons, Item} from 'react-navigation-header-buttons';
-
+import { useSelector } from 'react-redux'
 import { PostRow } from '../components/PostRow'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { DATA } from '../data'
 
-const url = 'https://testflatlist-5faf9.firebaseio.com/.json';
+// const url = 'https://testflatlist-5faf9.firebaseio.com/.json';
 
 export default function BookedScreen({navigation}) {
-    const fetchTodos = async (url) => {
-        try {
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {'Content-Type': 'application/json'},
-            });
-            const data = await response.json();
-            return data
-        } catch (e) {
-            console.log('Opss...')
-        }
-    };
+    // const fetchTodos = async (url) => {
+    //     try {
+    //         const response = await fetch(url, {
+    //             method: 'GET',
+    //             headers: {'Content-Type': 'application/json'},
+    //         });
+    //         const data = await response.json();
+    //         return data
+    //     } catch (e) {
+    //         console.log('Opss...')
+    //     }
+    // };
+    //
+    // const [dataSource, setDataSource] = useState([]);
+    // useEffect(() => {
+    //     fetchTodos(url).then((data) => setDataSource(data));
+    // }, []);
+    // const data = DATA.filter(user => user.liked_by_user);
 
-    const [dataSource, setDataSource] = useState([]);
-    useEffect(() => {
-        fetchTodos(url).then((data) => setDataSource(data));
-    }, []);
-
-    const data = dataSource.filter(post => post.liked_by_user);
+    const bookedUsers = useSelector (state => state.user.bookedUsers);
+    console.log('QQQ bookedUsers', bookedUsers)
 
     const openDetailScreen = item => {
         navigation.navigate('DetailScreen', {item: item, liked_by_user: item.liked_by_user })
@@ -56,7 +59,7 @@ export default function BookedScreen({navigation}) {
 
             <View style={{flex: 1}}>
                 <FlatList
-                    data={data}
+                    data={bookedUsers}
                     keyExtractor={(item, index) => item.id.toString()}
                     renderItem={ ({item}) => <PostRow item={item} onOpen={openDetailScreen}/>}
                 />

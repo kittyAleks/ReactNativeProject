@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, Button, FlatList } from 'react-native'
-import { createBottomTabNavigator } from 'react-navigation-tabs'
-import {AppContainer} from './src/navigation/AppNavigation';
+import { AppContainer } from './src/navigation/AppNavigation'
+import { Provider } from 'react-redux'
+import store from './src/store'
 
 export default class App extends React.Component {
   render() {
-    return <AppContainer/>
+    return <Provider store={store}><AppContainer/></Provider>
 
   }
 }

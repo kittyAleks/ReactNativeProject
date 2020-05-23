@@ -2,52 +2,62 @@ import React, {useEffect, useState} from 'react'
 import { View, StatusBar, StyleSheet, Image, Dimensions, TouchableOpacity, FlatList } from 'react-native'
 import { Container, InputGroup, Input, Text, Button as NBButton, Icon as NBIcon} from 'native-base'
 import {HeaderButton, HeaderButtons, Item} from 'react-navigation-header-buttons';
-
+import {useDispatch, useSelector} from "react-redux"
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {PostRow} from "../components/PostRow";
+import {loadUsers} from "../store/action/postAction";
 
-const url = 'https://testflatlist-5faf9.firebaseio.com/.json';
+// const url = 'https://testflatlist-5faf9.firebaseio.com/.json';
 
 export default function MainScreen({navigation}) {
-    const fetchTodos = async (url) => {
-        try {
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {'Content-Type': 'application/json'},
-            });
-            const data = await response.json();
-            console.log('ssss data', data)
-
-        return data
-
-        } catch (e) {
-            console.log('Ops...')
-        }
-    };
-
-    const [dataSource, setDataSource] = useState();
-
-    useEffect(() => {
-        fetchTodos(url).then((data) => setDataSource(data));
-    }, []);
-
+    // const fetchTodos = async (url) => {
+    //     try {
+    //         const response = await fetch(url, {
+    //             method: 'GET',
+    //             headers: {'Content-Type': 'application/json'},
+    //         });
+    //         const data = await response.json();
+    //         console.log('ssss data', data)
+    //
+    //     return data
+    //
+    //     } catch (e) {
+    //         console.log('Ops...')
+    //     }
+    // };
+    //
+    // const [dataSource, setDataSource] = useState();
+    //
+    // useEffect(() => {
+    //     fetchTodos(url).then((data) => setDataSource(data));
+    // }, []);
+    //
     const openDetailScreen = item => {
         navigation.navigate('DetailScreen', {item: item, liked_by_user: item.liked_by_user })
     };
 
-    // onSearchNameTextChange = (value) => {
-    //     this.setState({searchText: value});
-    //
-    //     const newData = this.state.data.filter(item => {
-    //         const itemData = item.user.first_name ? item.user.first_name.toUpperCase() : ''.toUpperCase();
-    //         const textData = value.toUpperCase();
-    //         return itemData.indexOf(textData) > -1;
-    //     });
-    //     this.setState({data: newData, value: value})
-    //     if(value === '') {
-    //         this.setState({data: [...this.state.temp]}
-    //         )}
-    // };
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(loadUsers())
+
+    }, [dispatch]);
+
+    const allUsers = useSelector(state => state.user.allUsers);
+    console.log('WWW allUsers', allUsers)
+
+/*    onSearchNameTextChange = (value) => {
+        this.setState({searchText: value});
+
+        const newData = this.state.data.filter(item => {
+            const itemData = item.user.first_name ? item.user.first_name.toUpperCase() : ''.toUpperCase();
+            const textData = value.toUpperCase();
+            return itemData.indexOf(textData) > -1;
+        });
+        this.setState({data: newData, value: value})
+        if(value === '') {
+            this.setState({data: [...this.state.temp]}
+            )}
+    };*/
 
     return (
         <Container style={{
@@ -71,7 +81,7 @@ export default function MainScreen({navigation}) {
             </View>
             <View style={{flex: 1}}>
                 <FlatList
-                    data={dataSource}
+                    data={allUsers}
                     keyExtractor={(item, index) => item.id}
                     renderItem={ ({item}) => <PostRow item={item} onOpen={openDetailScreen}/>}
                 />

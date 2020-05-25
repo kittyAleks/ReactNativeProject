@@ -1,2 +1,2 @@
 # ReactNativeProject
-  [![Watch the video]](https://github.com/kittyAleks/ReactNativeProject.git)
+![Иллюстрация к проекту](https://github.com/kittyAleks/ReactNativeProject/tree/master/src/img/0.jpeg)

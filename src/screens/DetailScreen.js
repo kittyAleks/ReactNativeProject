@@ -1,16 +1,29 @@
-import React, {Component, useEffect, useCallback} from 'react';
-import {StyleSheet, View, Text, Image, Button, ScrollView, Alert} from 'react-native';
-import {SceneView} from 'react-navigation';
+import React, { useEffect, useCallback } from 'react';
+import { StyleSheet, View, Text, Image, Button, ScrollView, Alert, TouchableOpacity } from 'react-native';
 import {HeaderButtons} from 'react-navigation-header-buttons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useDispatch, useSelector } from "react-redux"
+import {toggleBooked} from "../store/action/postAction";
 
 export const DetailScreen = ({navigation}) => {
-    const item = navigation.getParam('item');
-    console.log('QQQ item', item)
-    const dataSource = navigation.getParam('dataSource');
-    console.log('QQQ dataSource', dataSource)
+    const dispatch = useDispatch();
 
-    // useEffect(() => {navigation.setParams({liked_by_user: item.liked_by_user})}, [])
+    const item = navigation.getParam('item');
+    console.log('QQQ item', item);
+    // const dataSource = navigation.getParam('dataSource');
+
+    const booked = useSelector(state =>
+        state.user.bookedUsers.some(user => user.id === item.id)
+    );
+    useEffect(() => {navigation.setParams({ booked })}, [booked]);
+
+    const toggleHandler = useCallback(() => {
+        dispatch(toggleBooked(item.id))
+    },[dispatch, item.id]);
+
+    useEffect(() => {
+        navigation.setParams({toggleHandler})
+    }, [toggleHandler]);
 
     const removeHandler = (id) => {
         Alert.alert(
@@ -66,13 +79,14 @@ export const DetailScreen = ({navigation}) => {
 DetailScreen.navigationOptions = ({navigation}) => {
     const user = navigation.getParam('item');
     const liked_by_user = navigation.getParam('liked_by_user');
+    const toggleHandler = navigation.getParam('toggleHandler');
 
     const iconName = liked_by_user? 'md-star': 'md-star-outline';
     return {
         headerTitle: user.user.first_name,
-        headerRight: (<HeaderButtons>
-            <Ionicons style={{paddingRight: 10}} name={iconName} color='white' size={25} />
-        </HeaderButtons>),
+        headerRight: (<TouchableOpacity onPress={toggleHandler}>
+            <Ionicons style={{paddingRight: 10}} name={iconName} color='white' size={25}/>
+        </TouchableOpacity>),
     }
 };
 

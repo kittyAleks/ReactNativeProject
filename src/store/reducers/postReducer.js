@@ -1,4 +1,4 @@
-import {LOAD_USERS, TOGGLE_BOOKED} from "../types";
+import {LOAD_USERS, REMOVE_USER, TOGGLE_BOOKED} from "../types";
 
 const initialState = {
     allUsers: [],
@@ -22,6 +22,11 @@ export const postReducer = (state = initialState, action) => {
                 allUsers,
                 bookedUsers: allUsers.filter(user => user.liked_by_user)
             };
+        case REMOVE_USER: return {
+            ...state, allUsers: state.allUsers.filter(p => p.id !== action.payload),
+            bookedUsers: state.bookedUsers.filter(p => p.id !== action.payload)
+        };
+
 
         default: return state
      }

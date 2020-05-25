@@ -3,13 +3,17 @@ import { StyleSheet, View, Text, Image, Button, ScrollView, Alert, TouchableOpac
 import {HeaderButtons} from 'react-navigation-header-buttons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from "react-redux"
-import {toggleBooked} from "../store/action/postAction";
+import {removeUser, toggleBooked} from "../store/action/postAction";
 
 export const DetailScreen = ({navigation}) => {
     const dispatch = useDispatch();
-
     const item = navigation.getParam('item');
-    console.log('QQQ item', item);
+
+    const items = useSelector(state =>
+        state.user.allUsers.find(p => p.id === item.id)
+    );
+    console.log('AAA items', items)
+
     // const dataSource = navigation.getParam('dataSource');
 
     const booked = useSelector(state =>
@@ -25,10 +29,10 @@ export const DetailScreen = ({navigation}) => {
         navigation.setParams({toggleHandler})
     }, [toggleHandler]);
 
-    const removeHandler = (id) => {
+    const removeHandler = () => {
         Alert.alert(
             'Delete item',
-            `Are you sure you want to remove ${item.user.first_name} element?`,
+            `Are you sure you want to remove ${items.user.first_name} element?`,
             [
                 {
                     text: 'Cancel',
@@ -36,31 +40,28 @@ export const DetailScreen = ({navigation}) => {
                     style: 'cancel'
                 },
                 { text: 'Delete', style: 'destructive',
-                    onPress: async () => {
-                        try {
-                            await fetch(`https://testflatlist-5faf9.firebaseio.com/${id}.json`, {
-                                method: 'DELETE',
-                                headers: {'Content-Type': 'application/json'},
-                            })
-                        } catch (e) {
-                            alert('Error', e)
-                        }
+                    onPress: () => {
+                    navigation.navigate('MainScreen')
+                        dispatch(removeUser(items.id))
                     }
                 },
             ],
             { cancelable: false }
         );
+    };
+    if(!items) {
+        return null
     }
 
     return (
         <ScrollView>
             <View style={styles.detailContainer}>
                 <View style={{fontSize: 30}}>
-                    <Text style={{fontSize: 20}}>{item.user.first_name}{' '}</Text>
+                    <Text style={{fontSize: 20}}>{items.user.first_name}{' '}</Text>
                 </View>
                 <View style={{paddingTop: 20}}>
                     <Image
-                        source={{uri: `${item.user.profile_image.large}`}}
+                        source={{uri: `${items.user.profile_image.large}`}}
                         style={styles.imageStyle}
                     />
                 </View>

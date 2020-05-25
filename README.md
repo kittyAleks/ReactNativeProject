@@ -1,2 +1,3 @@
 # ReactNativeProject
-![Иллюстрация к проекту](https://github.com/kittyAleks/ReactNativeProject/tree/master/src/img/0.jpeg)
+![Иллюстрация к проекту 1](https://github.com/kittyAleks/ReactNativeProject/tree/master/src/img/Screen_1.png)
+![Иллюстрация к проекту 2](https://github.com/kittyAleks/ReactNativeProject/tree/master/src/img/Screen_2.png)

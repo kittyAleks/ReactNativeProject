@@ -33,7 +33,7 @@ export default function MainScreen({navigation}) {
     // }, []);
     //
     const openDetailScreen = item => {
-        navigation.navigate('DetailScreen', {item: item, liked_by_user: item.liked_by_user })
+        navigation.navigate('DetailScreen', {item: item, liked_by_user: item.liked_by_user, image: item.profile_image })
     };
 
     const dispatch = useDispatch();
@@ -82,7 +82,7 @@ export default function MainScreen({navigation}) {
             <View style={{flex: 1}}>
                 <FlatList
                     data={allUsers}
-                    keyExtractor={(item, index) => item.id}
+                    keyExtractor={(item, index) => item.id.toString()}
                     renderItem={ ({item}) => <PostRow item={item} onOpen={openDetailScreen}/>}
                 />
             </View>

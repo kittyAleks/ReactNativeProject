@@ -4,6 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export const PostRow = ({item, rowID, onOpen}) => {
+    console.log('PostRow item', item)
     return (
         <View style={{paddingHorizontal: 20,}}>
             <TouchableOpacity style={{
@@ -15,7 +16,7 @@ export const PostRow = ({item, rowID, onOpen}) => {
                     <View>
                         <TouchableOpacity>
                             <Image
-                                source={{uri: `${item.user.profile_image.large}`}}
+                                source={{uri: item.profile_image}}
                                 style={styles.imageStyle}
                             />
                         </TouchableOpacity>
@@ -24,14 +25,14 @@ export const PostRow = ({item, rowID, onOpen}) => {
                     <View style={{flexDirection: 'column', flex: 50, marginLeft: 30, justifyContent: 'center'}}>
                         <TouchableOpacity>
                             <View>
-                                <Text style={{fontSize: 18, color: '#7f7f7f'}}>{item.user.first_name}{' '}{item.user.last_name}</Text>
+                                <Text style={{fontSize: 18, color: '#7f7f7f'}}>{item.first_name}{' '}{item.last_name}</Text>
                             </View>
                         </TouchableOpacity>
                         <Text style={{
                             color: '#7f7f7f',
                             fontSize: 15,
                             paddingTop: 10
-                        }}>{new Date(item.user.updated_at).toLocaleDateString()}</Text>
+                        }}>{new Date(item.updated_at).toLocaleDateString()}</Text>
                     </View>
 
                     <View style={{

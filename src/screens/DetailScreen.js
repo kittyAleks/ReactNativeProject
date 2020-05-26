@@ -8,6 +8,7 @@ import {removeUser, toggleBooked} from "../store/action/postAction";
 export const DetailScreen = ({navigation}) => {
     const dispatch = useDispatch();
     const item = navigation.getParam('item');
+    const profile_image = navigation.getParam('image');
 
     const items = useSelector(state =>
         state.user.allUsers.find(p => p.id === item.id)
@@ -32,7 +33,7 @@ export const DetailScreen = ({navigation}) => {
     const removeHandler = () => {
         Alert.alert(
             'Delete item',
-            `Are you sure you want to remove ${items.user.first_name} element?`,
+            `Are you sure you want to remove ${items.first_name} element?`,
             [
                 {
                     text: 'Cancel',
@@ -57,11 +58,11 @@ export const DetailScreen = ({navigation}) => {
         <ScrollView>
             <View style={styles.detailContainer}>
                 <View style={{fontSize: 30}}>
-                    <Text style={{fontSize: 20}}>{items.user.first_name}{' '}</Text>
+                    <Text style={{fontSize: 20}}>{items.first_name}{' '}</Text>
                 </View>
                 <View style={{paddingTop: 20}}>
                     <Image
-                        source={{uri: `${items.user.profile_image.large}`}}
+                        source={{uri: profile_image}}
                         style={styles.imageStyle}
                     />
                 </View>
@@ -84,7 +85,7 @@ DetailScreen.navigationOptions = ({navigation}) => {
 
     const iconName = liked_by_user? 'md-star': 'md-star-outline';
     return {
-        headerTitle: user.user.first_name,
+        headerTitle: user.first_name,
         headerRight: (<TouchableOpacity onPress={toggleHandler}>
             <Ionicons style={{paddingRight: 10}} name={iconName} color='white' size={25}/>
         </TouchableOpacity>),

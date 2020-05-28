@@ -4,7 +4,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export const PostRow = ({item, rowID, onOpen}) => {
-    console.log('PostRow item', item)
     return (
         <View style={{paddingHorizontal: 20,}}>
             <TouchableOpacity style={{

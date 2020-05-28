@@ -62,7 +62,7 @@ export const DetailScreen = ({navigation}) => {
                 </View>
                 <View style={{paddingTop: 20}}>
                     <Image
-                        source={{uri: profile_image}}
+                        source={{uri: items.profile_image}}
                         style={styles.imageStyle}
                     />
                 </View>

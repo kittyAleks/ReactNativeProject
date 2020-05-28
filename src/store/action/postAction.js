@@ -1,10 +1,9 @@
 import { LOAD_USERS, TOGGLE_BOOKED, REMOVE_USER, ADD_USER } from "../types"
-import { DATA } from '../../../src/data.js'
 
 export const loadUsers = () => {
     return {
         type: 'LOAD_USERS',
-        payload: DATA
+        payload: []
     }
 };
 export const toggleBooked = id => {

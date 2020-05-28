@@ -3,35 +3,13 @@ import { View, StatusBar, StyleSheet, Image, Dimensions, TouchableOpacity, Butto
 import { Container, InputGroup, Input, Text, Button as NBButton, Icon as NBIcon} from 'native-base'
 import {PostRow} from "./PostRow";
 
-const url = 'https://testflatlist-5faf9.firebaseio.com/.json';
-
-export const UsersList = ({item, rowID, onOpen}) => {
-
-    const fetchTodos = async (url) => {
-        try {
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {'Content-Type': 'application/json'},
-            });
-            const data = await response.json();
-            return data
-
-        } catch (e) {
-            console.log('Ops...')
-        }
-    };
-
-    const [dataSource, setDataSource] = useState([]);
-
-    useEffect(() => {
-        fetchTodos(url).then((data) => setDataSource(data));
-    }, []);
+export const UsersList = ({data=[], onOpen}) => {
 
     return (
         <View>
             <View style={{flex: 1}}>
                 <FlatList
-                    data={dataSource}
+                    data={data}
                     keyExtractor={(item, index) => item.id}
                     renderItem={ ({item}) => <PostRow item={item} onOpen={onOpen}/>}
                 />
@@ -41,15 +19,15 @@ export const UsersList = ({item, rowID, onOpen}) => {
 }
 
 const styles = StyleSheet.create({
-    inputStyle: {
-        borderWidth: 1,
-        paddingLeft: 10,
-        paddingBottom: 5,
-        borderRadius: 5,
-        borderColor: '#c9c9c9',
-        height: 40,
-    }
-
+    wrapper: {
+        padding: 10
+    },
+    text: {
+        fontSize: 20,
+        textAlign: 'center',
+        marginVertical: 10,
+        color: '#525252'
+    },
 });
 
 

@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux"
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {PostRow} from "../components/PostRow";
 import {loadUsers} from "../store/action/postAction";
+import {UsersList} from "../components/UsersList";
 
 // const url = 'https://testflatlist-5faf9.firebaseio.com/.json';
 
@@ -43,7 +44,13 @@ export default function MainScreen({navigation}) {
     }, [dispatch]);
 
     const allUsers = useSelector(state => state.user.allUsers);
-    console.log('WWW allUsers', allUsers)
+    console.log('WWW allUsers', allUsers);
+
+    if(!allUsers.length) {
+        return <View style={styles.wrapper}>
+            <Text style={styles.text}>No posts yet ^^)</Text>
+        </View>
+    }
 
 /*    onSearchNameTextChange = (value) => {
         this.setState({searchText: value});
@@ -79,10 +86,11 @@ export default function MainScreen({navigation}) {
                         placeholder='Search by name'/>
                 </InputGroup>
             </View>
+            <UsersList/>
             <View style={{flex: 1}}>
                 <FlatList
                     data={allUsers}
-                    keyExtractor={(item, index) => item.id.toString()}
+                    keyExtractor={(item, index) => item.first_name}
                     renderItem={ ({item}) => <PostRow item={item} onOpen={openDetailScreen}/>}
                 />
             </View>
@@ -102,6 +110,15 @@ MainScreen.navigationOptions = ({navigation}) => ({
     </HeaderButtons>)
 });
 const styles = StyleSheet.create({
+    wrapper: {
+        padding: 10
+    },
+    text: {
+        fontSize: 20,
+        textAlign: 'center',
+        marginVertical: 10,
+        color: '#525252'
+    },
     inputStyle: {
         borderWidth: 1,
         paddingLeft: 10,

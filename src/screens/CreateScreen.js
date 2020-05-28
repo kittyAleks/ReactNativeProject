@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef } from 'react'
 import {View, Keyboard, StyleSheet, Image, ScrollView, TouchableWithoutFeedback, TextInput, Button} from 'react-native'
 import { Container, InputGroup, Input, Text, Button as NBButton, Icon as NBIcon} from 'native-base'
 import {HeaderButton, HeaderButtons, Item} from 'react-navigation-header-buttons'
@@ -6,10 +6,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import {THEME} from "../theme"
 import { useDispatch } from 'react-redux'
 import { addUser } from "../store/action/postAction";
+import { PhotoPicker } from '../components/PhotoPicker'
 
 export default function CreateScreen({navigation}) {
     const [text, setText] = useState('');
-    const profile_image = "https://images.unsplash.com/profile-fb-1456184697-467e46e57ac3.jpg?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&cs=tinysrgb&fit=crop&h=300&w=300";
+    const imgRef = useRef();
 
     const dispatch = useDispatch();
     const saveHandler = () => {
@@ -17,11 +18,17 @@ export default function CreateScreen({navigation}) {
             updated_at: new Date().toJSON(),
             liked_by_user: false,
             first_name: text,
-            profile_image: profile_image,
+            profile_image: imgRef.current.source,
         };
+        console.log('AAA  newUser.profile_image', newUser.profile_image)
         dispatch(addUser(newUser));
         navigation.navigate('MainScreen')
     };
+
+    const pickerHandler = source => {
+        imgRef.current = source
+    };
+    console.log('AAA imgRef.current', imgRef.current);
 
     return (
         /* Keyboard.dismiss - закрывает автом-и клавиатуру после вводу текста */
@@ -40,11 +47,11 @@ export default function CreateScreen({navigation}) {
                         onChangeText={setText}
                         value={text}/>
                 </View>
-                <Image
-                    source={{uri: profile_image}}
-                    style={styles.imageStyle}
-                />
-                <Button title='Create user' color={THEME.MAIN_COLOR} onPress={saveHandler} />
+                <PhotoPicker onPicker={pickerHandler}/>
+                <Button disabled={!text || !imgRef.current}
+                        title='Create user'
+                        color={THEME.MAIN_COLOR}
+                        onPress={saveHandler} />
             </View>
             </TouchableWithoutFeedback>
         </ScrollView>

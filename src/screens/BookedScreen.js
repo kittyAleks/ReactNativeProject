@@ -30,7 +30,12 @@ export default function BookedScreen({navigation}) {
     // const data = DATA.filter(user => user.liked_by_user);
 
     const bookedUsers = useSelector (state => state.user.bookedUsers);
-    console.log('QQQ bookedUsers', bookedUsers)
+    console.log('QQQ bookedUsers', bookedUsers);
+    if(!bookedUsers.length) {
+        return <View style={styles.wrapper}>
+            <Text style={styles.text}>No posts yet ^^)</Text>
+        </View>
+    }
 
     const openDetailScreen = item => {
         navigation.navigate('DetailScreen', {item: item, liked_by_user: item.liked_by_user })
@@ -75,6 +80,15 @@ BookedScreen.navigationOptions = ({ navigation }) =>({
     </HeaderButtons>)
 });
 const styles = StyleSheet.create({
+    wrapper: {
+        padding: 10
+    },
+    text: {
+        fontSize: 20,
+        textAlign: 'center',
+        marginVertical: 10,
+        color: '#525252'
+    },
     inputStyle: {
         borderWidth: 1,
         paddingLeft: 10,

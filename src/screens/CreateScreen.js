@@ -20,7 +20,7 @@ export default function CreateScreen({navigation}) {
             first_name: text,
             profile_image: imgRef.current.source,
         };
-        console.log('AAA  newUser.profile_image', newUser.profile_image)
+        console.log('AAA  newUser', newUser)
         dispatch(addUser(newUser));
         navigation.navigate('MainScreen')
     };

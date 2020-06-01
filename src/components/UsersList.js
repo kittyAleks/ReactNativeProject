@@ -10,7 +10,7 @@ export const UsersList = ({data=[], onOpen}) => {
             <View style={{flex: 1}}>
                 <FlatList
                     data={data}
-                    keyExtractor={(item, index) => item.id}
+                    keyExtractor={(item, index) => item.id.toString()}
                     renderItem={ ({item}) => <PostRow item={item} onOpen={onOpen}/>}
                 />
             </View>

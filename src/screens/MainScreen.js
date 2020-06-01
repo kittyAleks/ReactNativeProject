@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { View, StatusBar, StyleSheet, Image, Dimensions, TouchableOpacity, FlatList } from 'react-native'
+import { View, StatusBar, StyleSheet, ActivityIndicator, FlatList } from 'react-native'
 import { Container, InputGroup, Input, Text, Button as NBButton, Icon as NBIcon} from 'native-base'
 import {HeaderButton, HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useDispatch, useSelector} from "react-redux"
@@ -7,10 +7,18 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {PostRow} from "../components/PostRow";
 import {loadUsers} from "../store/action/postAction";
 import {UsersList} from "../components/UsersList";
+import {DB} from '../db'
+import {THEME} from "../theme";
 
 // const url = 'https://testflatlist-5faf9.firebaseio.com/.json';
 
 export default function MainScreen({navigation}) {
+    try {
+        DB.init();
+        console.log('DataBase started...')
+    } catch (e) {
+        console.log('Error', e)
+    }
     // const fetchTodos = async (url) => {
     //     try {
     //         const response = await fetch(url, {
@@ -45,12 +53,19 @@ export default function MainScreen({navigation}) {
 
     const allUsers = useSelector(state => state.user.allUsers);
     console.log('WWW allUsers', allUsers);
+    const loading = useSelector(state => state.user.loading);
 
-    if(!allUsers.length) {
-        return <View style={styles.wrapper}>
-            <Text style={styles.text}>No posts yet ^^)</Text>
+    if(loading && !allUsers.length) {
+        return <View style={styles.loadCenter}>
+            <ActivityIndicator color={THEME.MAIN_COLOR} size='large'/>
         </View>
     }
+
+    // if(!allUsers.length) {
+    //     return <View style={styles.wrapper}>
+    //         <Text style={styles.text}>No posts yet ^^)</Text>
+    //     </View>
+    // }
 
 /*    onSearchNameTextChange = (value) => {
         this.setState({searchText: value});
@@ -90,7 +105,7 @@ export default function MainScreen({navigation}) {
             <View style={{flex: 1}}>
                 <FlatList
                     data={allUsers}
-                    keyExtractor={(item, index) => item.first_name}
+                    keyExtractor={(item, index) => item.id.toString()}
                     renderItem={ ({item}) => <PostRow item={item} onOpen={openDetailScreen}/>}
                 />
             </View>
@@ -126,6 +141,11 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: '#c9c9c9',
         height: 40,
+    },
+    loadCenter: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 
 });

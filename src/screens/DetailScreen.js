@@ -23,8 +23,8 @@ export const DetailScreen = ({navigation}) => {
     useEffect(() => {navigation.setParams({ booked })}, [booked]);
 
     const toggleHandler = useCallback(() => {
-        dispatch(toggleBooked(item.id))
-    },[dispatch, item.id]);
+        dispatch(toggleBooked(items))
+    },[dispatch, items]);
 
     useEffect(() => {
         navigation.setParams({toggleHandler})

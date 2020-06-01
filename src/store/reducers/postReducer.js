@@ -2,7 +2,8 @@ import {ADD_USER, LOAD_USERS, REMOVE_USER, TOGGLE_BOOKED} from "../types";
 
 const initialState = {
     allUsers: [],
-    bookedUsers: []
+    bookedUsers: [],
+    loading: true
 };
 
 export const postReducer = (state = initialState, action) => {
@@ -10,7 +11,8 @@ export const postReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOAD_USERS: return {
             ...state, allUsers: action.payload,
-            bookedUsers: action.payload.filter(user => user.liked_by_user)
+            bookedUsers: action.payload.filter(user => user.liked_by_user),
+            loading: false
         };
         case TOGGLE_BOOKED:
             const allUsers = state.allUsers.map(user => {

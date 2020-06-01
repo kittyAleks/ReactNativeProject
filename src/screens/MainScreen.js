@@ -58,6 +58,7 @@ export default function MainScreen({navigation}) {
     if(loading && !allUsers.length) {
         return <View style={styles.loadCenter}>
             <ActivityIndicator color={THEME.MAIN_COLOR} size='large'/>
+                <Text style={styles.text}>No posts yet ^^)</Text>
         </View>
     }
 
